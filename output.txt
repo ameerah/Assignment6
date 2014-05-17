@@ -1,0 +1,115 @@
+mysql> SELECT * FROM uni LIMIT 1;
++-------+--------+---------+--------+---------+--------+---------+
+| StuID | Course | Percent | Symbol | Credits | Senior | Science |
++-------+--------+---------+--------+---------+--------+---------+
+|  1001 | ACCS1  | 61      | 2-     |      18 | N      | N       |
++-------+--------+---------+--------+---------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM matric LIMIT 1;
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+| StuID | Prefix | FirstName | LastName | Gender | CitizenshipStat | SchoolName        | SchoolCode | Year | ExamAuth | OldExAuth | UCTscore |
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+|  1001 | Mr     | Aaron     | Zwillig  | M      | C               | Private Candidate |    1004249 | 2007 |          | TR        |       34 |
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+1 row in set (0.01 sec)
+
+mysql> NOTEE
+mysql> SELECT COUNT(*) FROM uni;
++----------+
+| COUNT(*) |
++----------+
+|      521 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM matric;
++----------+
+| COUNT(*) |
++----------+
+|      521 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT * FROM matric WHERE ((Prefix = 'Miss' OR Prefix = 'Mrs') AND (Gender = 'M')) OR (Prefix = 'Mr' AND Gender = 'F');
+Empty set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT FirstName,LastName FROM matric WHERE SchoolCode = 1000929 ORDER BY LastName ASC;
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Sophy     | Cooper   |
+| Beth      | Turner   |
++-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT DISTINCT Course, (Credits/3) FROM uni;
++--------+-------------+
+| Course | (Credits/3) |
++--------+-------------+
+| ACCS1  |      6.0000 |
+| CS1    |      6.0000 |
+| ECO1   |      6.0000 |
+| MAM1   |      6.0000 |
+| PSY1   |     12.0000 |
+| STA1   |      6.0000 |
+| ZOO1   |      6.0000 |
+| BUS1   |      6.0000 |
+| CS2    |      8.0000 |
+| ACCS2  |      6.0000 |
+| ECO2   |      6.0000 |
+| MAM2   |      8.0000 |
+| PSY2   |      8.0000 |
+| STA2   |      8.0000 |
+| CS3    |     12.0000 |
+| ECO3   |      6.0000 |
+| GAM1   |      8.0000 |
+| GAM2   |     12.0000 |
+| MAM3   |     12.0000 |
+| STA3   |     12.0000 |
+| ACCS3  |      6.0000 |
+| BUS3   |      6.0000 |
+| ZOO3   |     12.0000 |
++--------+-------------+
+23 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT * FROM matric WHERE CitizenshipStat = 'C' AND ExamAuth = '' AND OldExAuth = '' AND UCTscore = 0;
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+| StuID | Prefix | FirstName | LastName | Gender | CitizenshipStat | SchoolName          | SchoolCode | Year | ExamAuth | OldExAuth | UCTscore |
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+|  1237 | Miss   | Lauren    | Masendu  | F      | C               | Other - Rsa Schools |    1003963 | 2006 |          |           |        0 |
+|  1501 | Miss   | Thulani   | Baxter   | F      | C               | Other - Zimbabwe    |    1003975 | 2003 |          |           |        0 |
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT StuID FROM uni WHERE Course = 'ZOO3' OR Course = 'ACCS1' GROUP BY StuID HAVING COUNT(StuID) > 1;
++-------+
+| StuID |
++-------+
+|  1006 |
+|  1012 |
+|  1023 |
+|  1029 |
+|  1040 |
+|  1046 |
+|  1057 |
+|  1063 |
+|  1082 |
++-------+
+9 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT StuID, Course FROM uni WHERE Percent != 'AB' AND Percent != 'DPR' ORDER BY Percent DESC LIMIT 1;
++-------+--------+
+| StuID | Course |
++-------+--------+
+|  1001 | CS1    |
++-------+--------+
+1 row in set (0.00 sec)
+
+mysql> NOTEE
