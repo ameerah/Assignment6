@@ -1,0 +1,310 @@
+mysql> SELECT DISTINCT StuID FROM uni WHERE Percent < (SELECT MAX(Percent) FROM uni WHERE StuID = 1027);
++-------+
+| StuID |
++-------+
+|  1001 |
+|  1002 |
+|  1003 |
+|  1004 |
+|  1005 |
+|  1006 |
+|  1007 |
+|  1008 |
+|  1009 |
+|  1010 |
+|  1011 |
+|  1012 |
+|  1013 |
+|  1014 |
+|  1015 |
+|  1016 |
+|  1017 |
+|  1018 |
+|  1019 |
+|  1020 |
+|  1021 |
+|  1022 |
+|  1023 |
+|  1024 |
+|  1025 |
+|  1026 |
+|  1027 |
+|  1028 |
+|  1029 |
+|  1030 |
+|  1031 |
+|  1032 |
+|  1033 |
+|  1034 |
+|  1035 |
+|  1036 |
+|  1037 |
+|  1038 |
+|  1039 |
+|  1040 |
+|  1041 |
+|  1042 |
+|  1043 |
+|  1044 |
+|  1045 |
+|  1046 |
+|  1047 |
+|  1048 |
+|  1049 |
+|  1050 |
+|  1051 |
+|  1052 |
+|  1053 |
+|  1054 |
+|  1055 |
+|  1056 |
+|  1057 |
+|  1058 |
+|  1059 |
+|  1060 |
+|  1061 |
+|  1062 |
+|  1063 |
+|  1064 |
+|  1065 |
+|  1066 |
+|  1067 |
+|  1068 |
+|  1069 |
+|  1070 |
+|  1071 |
+|  1072 |
+|  1073 |
+|  1074 |
+|  1075 |
+|  1076 |
+|  1077 |
+|  1078 |
+|  1079 |
+|  1080 |
+|  1081 |
+|  1082 |
+|  1083 |
+|  1084 |
+|  1085 |
+|  1086 |
+|  1087 |
++-------+
+87 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM (SELECT DISTINCT StuID FROM uni WHERE Percent < (SELECT MAX(Percent) FROM uni WHERE StuID = 1027));
+ERROR 1248 (42000): Every derived table must have its own alias
+mysql> NOTEE
+mysql> SELECT DISTINCT Symbol FROM uni;
++--------+
+| Symbol |
++--------+
+| 2-     |
+| 1      |
+| AB     |
+| 3      |
+| 2+     |
+| F      |
+| DP     |
++--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM (SELECT DISTINCT Symbol FROM uni);
+ERROR 1248 (42000): Every derived table must have its own alias
+mysql> NOTEE
+mysql> SELECT AVG(Percent) FROM uni WHERE Percent != 'AB' AND Percent != 'DPR';
++-------------------+
+| AVG(Percent)      |
++-------------------+
+| 63.16895874263261 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT AVG(Percent) FROM uni;
++-------------------+
+| AVG(Percent)      |
++-------------------+
+| 61.71401151631478 |
++-------------------+
+1 row in set, 3 warnings (0.00 sec)
+
+mysql> SELECT SUM(Percent) FROM uni WHERE Percent != 'AB' AND Percent != 'DPR';
++--------------+
+| SUM(Percent) |
++--------------+
+|        32153 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT SUM(Percent) FROM uni WHERE Percent = 'AB' OR Percent = 'DPR';
++--------------+
+| SUM(Percent) |
++--------------+
+|            0 |
++--------------+
+1 row in set, 3 warnings (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT DISTINCT Course FROM uni WHERE Course like 'CS%' ORDER BY Course ASC;
++--------+
+| Course |
++--------+
+| CS1    |
+| CS2    |
+| CS3    |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS1' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 41      |
+| 50      |
+| 53      |
+| 54      |
+| 56      |
+| 56      |
+| 56      |
+| 57      |
+| 60      |
+| 60      |
+| 61      |
+| 63      |
+| 64      |
+| 64      |
+| 64      |
+| 65      |
+| 65      |
+| 66      |
+| 67      |
+| 67      |
+| 67      |
+| 67      |
+| 68      |
+| 70      |
+| 70      |
+| 70      |
+| 72      |
+| 88      |
+| DPR     |
++---------+
+29 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS2' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 51      |
+| 59      |
+| 60      |
+| 62      |
+| 62      |
+| 63      |
+| 63      |
+| 64      |
+| 65      |
+| 66      |
+| 66      |
+| 66      |
+| 68      |
+| 73      |
+| 75      |
+| AB      |
++---------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS3' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 40      |
+| 50      |
+| 54      |
+| 57      |
+| 62      |
+| 66      |
+| 67      |
+| 67      |
+| 67      |
+| 70      |
+| 70      |
+| 70      |
+| 70      |
+| 71      |
+| 71      |
+| 71      |
+| 75      |
++---------+
+17 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT Year, maximumscore FROM (SELECT Year, MAX(UCTscore) as maximumscore, COUNT(*) AS count FROM matric GROUP BY Year) AS year WHERE count > 10;
++------+--------------+
+| Year | maximumscore |
++------+--------------+
+| 2003 |           46 |
+| 2004 |           50 |
+| 2005 |           48 |
+| 2006 |           50 |
++------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT Year, maximumscore FROM (SELECT Year, MAX(UCTscore) as maximumscore, COUNT(*) AS count FROM matric GROUP BY Year) AS year WHERE count > 10;
++------+--------------+
+| Year | maximumscore |
++------+--------------+
+| 2003 |           46 |
+| 2004 |           50 |
+| 2005 |           48 |
+| 2006 |           50 |
++------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT Course, COUNT(*) AS count FROM uni WHERE Symbol = 'F' GROUP BY Course ORDER BY count ASC;
++--------+-------+
+| Course | count |
++--------+-------+
+| MAM2   |     1 |
+| CS1    |     1 |
+| PSY1   |     1 |
+| ACCS3  |     1 |
+| ACCS2  |     1 |
+| STA3   |     1 |
+| CS3    |     1 |
+| ECO1   |     1 |
+| STA2   |     2 |
+| ACCS1  |     2 |
+| GAM2   |     2 |
+| MAM1   |     3 |
+| BUS1   |     3 |
+| MAM3   |     3 |
++--------+-------+
+14 rows in set (0.00 sec)
+
+mysql> NOTEE
+mysql> SELECT COUNT(*) FROM (SELECT DISTINCT Symbol AS symb FROM uni) AS count;
++----------+
+| COUNT(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> NOTEE
+mysql> DELETE FROM uni WHERE Year < 2000;
+ERROR 1054 (42S22): Unknown column 'Year' in 'where clause'
+mysql> DELETE FROM matric WHERE Year < 2000;
+Query OK, 5 rows affected (0.04 sec)
+
+mysql> NOTEE
+mysql> INSERT INTO uni VALUES (1001, ZOO1, AB, AB, 18, N, Y);
+ERROR 1054 (42S22): Unknown column 'ZOO1' in 'field list'
+mysql> INSERT INTO uni VALUES (1001, 'ZOO1', 'AB', 'AB', 18, 'N', 'Y');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> NOTEE
