@@ -1,0 +1,452 @@
+QUESTION 1:
+.
+.
+.
+.
+mysql> SELECT * FROM uni LIMIT 1;
++-------+--------+---------+--------+---------+--------+---------+
+| StuID | Course | Percent | Symbol | Credits | Senior | Science |
++-------+--------+---------+--------+---------+--------+---------+
+|  1001 | ACCS1  | 61      | 2-     |      18 | N      | N       |
++-------+--------+---------+--------+---------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM matric LIMIT 1;
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+| StuID | Prefix | FirstName | LastName | Gender | CitizenshipStat | SchoolName        | SchoolCode | Year | ExamAuth | OldExAuth | UCTscore |
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+|  1001 | Mr     | Aaron     | Zwillig  | M      | C               | Private Candidate |    1004249 | 2007 |          | TR        |       34 |
++-------+--------+-----------+----------+--------+-----------------+-------------------+------------+------+----------+-----------+----------+
+1 row in set (0.01 sec)
+.
+.
+.
+.
+QUESTION 2:
+.
+.
+.
+.
+mysql> SELECT COUNT(*) FROM uni;
++----------+
+| COUNT(*) |
++----------+
+|      521 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM matric;
++----------+
+| COUNT(*) |
++----------+
+|      521 |
++----------+
+1 row in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 3:
+.
+.
+.
+.
+mysql> SELECT * FROM matric WHERE ((Prefix = 'Miss' OR Prefix = 'Mrs') AND (Gender = 'M')) OR (Prefix = 'Mr' AND Gender = 'F');
+Empty set (0.00 sec)
+.
+.
+.
+.
+QUESTION 4:
+.
+.
+.
+.
+mysql> SELECT FirstName,LastName FROM matric WHERE SchoolCode = 1000929 ORDER BY LastName ASC;
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Sophy     | Cooper   |
+| Beth      | Turner   |
++-----------+----------+
+2 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 5:
+.
+.
+.
+.
+mysql> SELECT DISTINCT Course, (Credits/3) FROM uni;
++--------+-------------+
+| Course | (Credits/3) |
++--------+-------------+
+| ACCS1  |      6.0000 |
+| CS1    |      6.0000 |
+| ECO1   |      6.0000 |
+| MAM1   |      6.0000 |
+| PSY1   |     12.0000 |
+| STA1   |      6.0000 |
+| ZOO1   |      6.0000 |
+| BUS1   |      6.0000 |
+| CS2    |      8.0000 |
+| ACCS2  |      6.0000 |
+| ECO2   |      6.0000 |
+| MAM2   |      8.0000 |
+| PSY2   |      8.0000 |
+| STA2   |      8.0000 |
+| CS3    |     12.0000 |
+| ECO3   |      6.0000 |
+| GAM1   |      8.0000 |
+| GAM2   |     12.0000 |
+| MAM3   |     12.0000 |
+| STA3   |     12.0000 |
+| ACCS3  |      6.0000 |
+| BUS3   |      6.0000 |
+| ZOO3   |     12.0000 |
++--------+-------------+
+23 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 6:
+.
+.
+.
+.
+mysql> SELECT * FROM matric WHERE CitizenshipStat = 'C' AND ExamAuth = '' AND OldExAuth = '' AND UCTscore = 0;
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+| StuID | Prefix | FirstName | LastName | Gender | CitizenshipStat | SchoolName          | SchoolCode | Year | ExamAuth | OldExAuth | UCTscore |
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+|  1237 | Miss   | Lauren    | Masendu  | F      | C               | Other - Rsa Schools |    1003963 | 2006 |          |           |        0 |
+|  1501 | Miss   | Thulani   | Baxter   | F      | C               | Other - Zimbabwe    |    1003975 | 2003 |          |           |        0 |
++-------+--------+-----------+----------+--------+-----------------+---------------------+------------+------+----------+-----------+----------+
+2 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 7:
+.
+.
+.
+.
+mysql> SELECT StuID FROM uni WHERE Course = 'ZOO3' OR Course = 'ACCS1' GROUP BY StuID HAVING COUNT(StuID) > 1;
++-------+
+| StuID |
++-------+
+|  1006 |
+|  1012 |
+|  1023 |
+|  1029 |
+|  1040 |
+|  1046 |
+|  1057 |
+|  1063 |
+|  1082 |
++-------+
+9 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 8:
+.
+.
+.
+.
+mysql> SELECT StuID, Course FROM uni WHERE Percent != 'AB' AND Percent != 'DPR' ORDER BY Percent DESC LIMIT 1;
++-------+--------+
+| StuID | Course |
++-------+--------+
+|  1001 | CS1    |
++-------+--------+
+1 row in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 9:
+.
+.
+.
+.
+Note: The question was ambiguous so I assumed it to mean that a student who has gotten a mark lower than student 1027 in any course needs to be counted and used 1027's highest mark since, if any other student has a mark lower than that, they satisfy the requirement.
+.
+mysql> SELECT COUNT(*) FROM (SELECT DISTINCT StuID AS student FROM uni WHERE Percent < (SELECT MAX(Percent) FROM uni WHERE StuID = 1027) GROUP BY StuID) AS count;
++-------+
+| count |
++-------+
+|    87 |
++-------+
+1 row in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 10:
+.
+.
+.
+.
+mysql> SELECT COUNT(*) FROM (SELECT DISTINCT Symbol AS symb FROM uni) AS count;
++----------+
+| COUNT(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 11:
+.
+.
+.
+.
+Note: The following calculates the average without the absent and DPR'ed students since we're not told how to treat those.
+mysql> SELECT AVG(Percent) FROM uni WHERE Percent != 'AB' AND Percent != 'DPR';
++-------------------+
+| AVG(Percent)      |
++-------------------+
+| 63.16895874263261 |
++-------------------+
+1 row in set (0.00 sec)
+
+Note: The following calculates the average without exceptions (for AB and DPR)
+mysql> SELECT AVG(Percent) FROM uni;
++-------------------+
+| AVG(Percent)      |
++-------------------+
+| 61.71401151631478 |
++-------------------+
+1 row in set, 3 warnings (0.00 sec)
+
+Note: To verify the above value was correct, I summed the scores.
+mysql> SELECT SUM(Percent) FROM uni WHERE Percent != 'AB' AND Percent != 'DPR';
++--------------+
+| SUM(Percent) |
++--------------+
+|        32153 |
++--------------+
+1 row in set (0.00 sec)
+
+Note: Summing the scores produced 32153. Dividing this by the total number of students (521), effectively assigning values of 0 to students who were absent or DPR'ed, I got an average of the above 61.71401151631478. This suggests that MYSQL automatically assigns values of 0 to non-numerical input like DPR and AB. The following summation across only those verifies this:
+
+mysql> SELECT SUM(Percent) FROM uni WHERE Percent = 'AB' OR Percent = 'DPR';
++--------------+
+| SUM(Percent) |
++--------------+
+|            0 |
++--------------+
+1 row in set, 3 warnings (0.00 sec)
+.
+.
+.
+.
+QUESTION 12:
+.
+.
+.
+.
+mysql> SELECT DISTINCT Course FROM uni WHERE Course like 'CS%' ORDER BY Course ASC;
++--------+
+| Course |
++--------+
+| CS1    |
+| CS2    |
+| CS3    |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS1' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 41      |
+| 50      |
+| 53      |
+| 54      |
+| 56      |
+| 56      |
+| 56      |
+| 57      |
+| 60      |
+| 60      |
+| 61      |
+| 63      |
+| 64      |
+| 64      |
+| 64      |
+| 65      |
+| 65      |
+| 66      |
+| 67      |
+| 67      |
+| 67      |
+| 67      |
+| 68      |
+| 70      |
+| 70      |
+| 70      |
+| 72      |
+| 88      |
+| DPR     |
++---------+
+29 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS2' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 51      |
+| 59      |
+| 60      |
+| 62      |
+| 62      |
+| 63      |
+| 63      |
+| 64      |
+| 65      |
+| 66      |
+| 66      |
+| 66      |
+| 68      |
+| 73      |
+| 75      |
+| AB      |
++---------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT Percent FROM uni WHERE Course = 'CS3' ORDER BY Percent ASC;
++---------+
+| Percent |
++---------+
+| 40      |
+| 50      |
+| 54      |
+| 57      |
+| 62      |
+| 66      |
+| 67      |
+| 67      |
+| 67      |
+| 70      |
+| 70      |
+| 70      |
+| 70      |
+| 71      |
+| 71      |
+| 71      |
+| 75      |
++---------+
+17 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 13:
+.
+.
+.
+.
+mysql> SELECT Year, maximumscore FROM (SELECT Year, MAX(UCTscore) as maximumscore, COUNT(*) AS count FROM matric GROUP BY Year) AS year WHERE count > 10;
++------+--------------+
+| Year | maximumscore |
++------+--------------+
+| 2003 |           46 |
+| 2004 |           50 |
+| 2005 |           48 |
+| 2006 |           50 |
++------+--------------+
+4 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 14:
+.
+.
+.
+.
+mysql> SELECT Course, COUNT(*) AS count FROM uni WHERE Symbol = 'F' GROUP BY Course ORDER BY count ASC;
++--------+-------+
+| Course | count |
++--------+-------+
+| MAM2   |     1 |
+| CS1    |     1 |
+| PSY1   |     1 |
+| ACCS3  |     1 |
+| ACCS2  |     1 |
+| STA3   |     1 |
+| CS3    |     1 |
+| ECO1   |     1 |
+| STA2   |     2 |
+| ACCS1  |     2 |
+| GAM2   |     2 |
+| MAM1   |     3 |
+| BUS1   |     3 |
+| MAM3   |     3 |
++--------+-------+
+14 rows in set (0.00 sec)
+.
+.
+.
+.
+QUESTION 15:
+.
+.
+.
+.
+Didn't do
+.
+.
+.
+.
+QUESTION 16:
+.
+.
+.
+.
+Didn't do
+.
+.
+.
+.
+QUESTION 17:
+.
+.
+.
+.
+mysql> DELETE FROM matric WHERE Year < 2000;
+Query OK, 5 rows affected (0.04 sec)
+.
+.
+.
+.
+QUESTION 18:
+.
+.
+.
+.
+mysql> INSERT INTO uni VALUES (1001, 'ZOO1', 'AB', 'AB', 18, 'N', 'Y');
+Query OK, 1 row affected (0.02 sec)
+.
+.
+.
+.
+QUESTION 19:
+.
+.
+.
+.
+Didn't do
+.
+.
+.
+.
+
